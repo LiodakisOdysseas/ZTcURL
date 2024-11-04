@@ -4,7 +4,7 @@ ZTcURL is a Zero-Trust Networking Architecture-embeded cli client application fo
 
 ## **Build instructions**
 --------------------------
-Note: Building the application has so far been tested only on Ubuntu 24.04.1 LTS virtual machines created with multipass. Successful binary building on other platforms cannot so far be guaranteed.
+Note: Building the application has so far been tested only on Ubuntu 24.04.1 LTS virtual machines created with [multipass](https://multipass.run/). Successful binary building on other platforms cannot so far be guaranteed.
 ```
 git clone https://github.com/LiodakisOdysseas/ZTcURL.git
 cd ZTcURL
