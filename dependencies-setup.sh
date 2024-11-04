@@ -35,4 +35,4 @@ sh autogen.sh
 make
 make check
 sudo make install
-cd
+cd $(sudo find / -path "*ZTcURL/.git" -print -quit) && cd ../ #changing back to repository's root directory
