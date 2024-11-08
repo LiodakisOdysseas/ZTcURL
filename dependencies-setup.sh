@@ -35,6 +35,7 @@ sh autogen.sh
 make
 make check
 sudo make install
-cd $(sudo find / -path "*ZTcURL/.git" -print -quit) && cd ../ #changing back to repository's root directory
+cd
 curl -sS https://get.openziti.io/install.bash \
 | sudo bash -s openziti
+cd $(sudo find / -path "*ZTcURL/.git" -print -quit) && cd ../ #changing back to repository's root directory
