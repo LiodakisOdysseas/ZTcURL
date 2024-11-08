@@ -9,8 +9,8 @@ git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.sh
 ./vcpkg install llhttp
-export llhttp_DIR=$(sudo find /   -name 'llhttp-config.cmake' -type f -exec dirname {} \; -quit)
-echo "export llhttp_DIR=$(sudo find /   -name 'llhttp-config.cmake' -type f -exec dirname {} \; -quit)" >> ~/.bashrc
+export llhttp_DIR=$(sudo find /home/"$USER"/vcpkg/installed   -name 'llhttp-config.cmake' -type f -exec dirname {} \; -quit)
+echo "export llhttp_DIR=$(sudo find /home/"$USER"/vcpkg/installed   -name 'llhttp-config.cmake' -type f -exec dirname {} \; -quit)" >> ~/.bashrc
 cd
 curl -O https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
 tar -xzf LATEST.tar.gz
