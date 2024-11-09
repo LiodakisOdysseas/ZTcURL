@@ -1,6 +1,6 @@
 # **ZTcURL**
 
-ZTcURL is a Zero-Trust Networking Architecture-embeded cli client application that can allow secure, authenticated access to Fiware Orion Context Broker instances through OpenZiti overlay networks.
+ZTcURL is a Zero-Trust Networking Architecture-embeded command line client application that can allow secure, authenticated access to [Fiware Orion Context Broker](https://github.com/telefonicaid/fiware-orion) instances through [OpenZiti](https://openziti.io/) overlay networks.
 
 ## **Build instructions**
 
