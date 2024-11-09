@@ -16,4 +16,4 @@ make
 
 ## **Usage**
 ```
-./ZTcURL <openziti_identity_file.json>
+./ZTcURL path-to/<openziti_identity_file.json>
