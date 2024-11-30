@@ -12,7 +12,7 @@ mkdir build && cd build
 cmake ..
 make
 ```
-Note: The [dependencies-setup.sh](https://github.com/Lio    dakisOdysseas/ZT    cURL/blob/master/dependencies-setup.sh) bash script takes about 5 minutes to install all the necessary dependencies (or maybe a bit longer if snap is not installed on     the host). Building the application has so far been tested only on Ubuntu 24.04.1 LTS virtual machines created with [multipass](https://multipass.run/) or [Windows Subsystem for Linux](https:    //learn.microsoft.com/en-us/windows/wsl/). On other platforms, successful binary building cannot thus far be absolutely guaranteed.
+Note: The [dependencies-setup.sh](https://github.com/LiodakisOdysseas/ZTcURL/blob/master/dependencies-setup.sh) bash script takes about 5 minutes to install all the necessary dependencies (or maybe a bit longer if snap is not installed on     the host). Building the application has so far been tested only on Ubuntu 24.04.1 LTS virtual machines created with [multipass](https://multipass.run/) or [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/). On other platforms, successful binary building cannot thus far be absolutely guaranteed.
 
 ## **Usage**
 ```
