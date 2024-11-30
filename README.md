@@ -1,10 +1,9 @@
 # **ZTcURL**
 
-ZTcURL is a Zero-Trust Networking Architecture-embedded command line client application that utilizes [curl](https://curl.se/)'s [libcurl()](https://curl.se/libcurl/) library and [OpenZiti-C SDK](https://github.com/openziti/ziti-sdk-c) to allow secure, authenticated access to [Fiware Orion Context Broker](https://github.com/telefonicaid/fiware-orion) instances through [OpenZiti](https://openziti.io/) overlay networks.
+ZTcURL is a Zero-Trust Networking Architecture-embedded command line client application that utilizes [curl](https://curl.se/)'s [libcurl()](https://curl.se/libcurl/) library and [OpenZiti-C SDK](https://github.com/openziti/ziti-sdk-c) to allow secure, authenticated access to [OpenZiti](https://openziti.io/) services.
 
 ## **Build instructions**
 
-Note: Building the application has so far been tested only on Ubuntu 24.04.1 LTS virtual machines created with [multipass](https://multipass.run/) or [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/). Successful binary building on other platforms cannot thus far be guaranteed. The [dependencies-setup.sh](https://github.com/LiodakisOdysseas/ZTcURL/blob/master/dependencies-setup.sh) bash script takes about 5 minutes to install all the necessary dependencies (or maybe a bit longer if snap is not installed on the host). 
 ```
 git clone https://github.com/LiodakisOdysseas/ZTcURL.git
 cd ZTcURL
@@ -13,7 +12,8 @@ mkdir build && cd build
 cmake ..
 make
 ```
+Note: The [dependencies-setup.sh](https://github.com/Lio    dakisOdysseas/ZT    cURL/blob/master/dependencies-setup.sh) bash script takes about 5 minutes to install all the necessary dependencies (or maybe a bit longer if snap is not installed on     the host). Building the application has so far been tested only on Ubuntu 24.04.1 LTS virtual machines created with [multipass](https://multipass.run/) or [Windows Subsystem for Linux](https:    //learn.microsoft.com/en-us/windows/wsl/). On other platforms, successful binary building cannot thus far be absolutely guaranteed.
 
 ## **Usage**
 ```
-./ZTcURL path-to/<openziti_identity_file.json>
+./ZTcURL https://open.ziti.service.intercept.address:port/path?query <openziti_identity_file>.json
