@@ -16,4 +16,4 @@ Note: The [dependencies-setup.sh](https://github.com/LiodakisOdysseas/ZTcURL/blo
 
 ## **Usage**
 ```
-./ZTcURL https://open.ziti.service.intercept.address:port/path?query <openziti_identity_file>.json
+./ZTcURL 'https://open.ziti.service.intercept.address:port/path?query' <openziti_identity_file>.json
