@@ -1,4 +1,4 @@
-/*Code form the following example has been used: https://curl.se/libcurl/c/externalsocket.html */
+//Code form the following example has been used: https://curl.se/libcurl/c/externalsocket.html
 #include <ziti/zitilib.h>
 #include <curl/curl.h>
 #include <string.h>
@@ -16,8 +16,8 @@ static curl_socket_t opensocket(void *clientp, curlsocktype purpose, struct curl
                                                                                                     (void)purpose;
                                                                                                     (void)address;
                                                                                                     sockfd = *(curl_socket_t *)clientp;
-                                                                                                    /* the actual externally set socket is passed in via the OPENSOCKETDATA
-                                                                                                       option */
+ 												    /* the actual externally set socket is passed in via the OPENSOCKETDATA
+     												       option */
                                                                                                     return sockfd;
 
 }
@@ -34,33 +34,110 @@ static int sockopt_callback(void *clientp, curl_socket_t curlfd, curlsocktype pu
 
 int main(int argc, char *argv[]){
 
-                                  const char *identity_file = argv[1];
+				  CURLU *h;
 
-                                  Ziti_lib_init();
+                                  CURLUcode uc;
 
-                                  ziti_context ztx = Ziti_load_context(identity_file);
+				  h = curl_url();
 
-                                  ziti_socket_t sock = Ziti_socket(SOCK_STREAM);
+				  uc = curl_url_set(h, CURLUPART_URL, argv[1], 0);
 
-				  printf("Which service would you like to access?:");
+				  char *full_url = NULL;
 
-				  char service_name[100];
+				  char *host, *port, *path, *query;
 
-				  if (fgets(service_name, sizeof(service_name), stdin) != NULL) {
-        											// Remove the newline character if present
-       										    		 size_t len = strlen(service_name);
+    				  if(!uc) {
+        
+					  curl_url_get(h, CURLUPART_HOST, &host, 0);
+        
+					  curl_url_get(h, CURLUPART_PORT, &port, 0);
+	 
+					  curl_url_get(h, CURLUPART_PATH, &path, 0);
+        
+					  curl_url_get(h, CURLUPART_QUERY, &query, 0);
+        
+					  CURLU *urlp;
+	
+					  urlp = curl_url();
 
-	 									    		 if (len > 0 && service_name[len - 1] == '\n') service_name[len - 1] = '\0';
+					  if (!urlp) {
+        	
+							fprintf(stderr, "Failed to create CURLU handle\n");
+        	
+							return 1;
+    	
+					  }
 
-				  }
+					  CURLUcode rc;
 
-                                  int error = Ziti_connect(sock, ztx, service_name, NULL);
+					  rc = curl_url_set(urlp, CURLUPART_URL, "http://99.99.99.99:9999", 0);
+   
+       					  if (rc) {
+        
+		 				   fprintf(stderr, "Failed to set base URL: %s\n", curl_url_strerror(rc));
+        
+		 				   curl_url_cleanup(urlp);
+        
+		 				   return 1;
+    	
+					  }
 
-                                  CURL *curl;
+					  rc = curl_url_set(urlp, CURLUPART_PATH, path, CURLU_URLENCODE);
+    
+					  if (rc) {
+        
+						   fprintf(stderr, "Failed to set path: %s\n", curl_url_strerror(rc));
+        
+						   curl_url_cleanup(urlp);
+        
+						   return 1;
+    
+					  }
 
-                                  CURLcode res;
+					  rc = curl_url_set(urlp, CURLUPART_QUERY, query, CURLU_URLENCODE);
+    
+					  if (rc) {
+        
+						   fprintf(stderr, "Failed to set query: %s\n", curl_url_strerror(rc));
+        
+						   curl_url_cleanup(urlp);
+        
+						   return 1;
+    
+					  }
 
-                                  curl_socket_t sockfd;
+					  rc = curl_url_get(urlp, CURLUPART_URL, &full_url, 0);
+    
+					  if (rc) {
+        
+					  	   fprintf(stderr, "Failed to get full URL: %s\n", curl_url_strerror(rc));
+        
+					  	   curl_url_cleanup(urlp);
+        
+					  	   return 1;
+    
+					  }
+
+    					  /* Clean up */
+    					  curl_url_cleanup(urlp);
+		
+					  curl_free(path);
+        
+					  curl_free(query);
+    
+    				} else {
+        				  
+					fprintf(stderr, "Error parsing URL: %s\n", curl_easy_strerror(uc));
+    				
+				}
+
+    				curl_url_cleanup(h);
+
+                                CURL *curl;
+
+                                CURLcode res;
+
+                                curl_socket_t sockfd;
 
                                 #ifdef _WIN32
                                   WSADATA wsaData;
@@ -71,36 +148,28 @@ int main(int argc, char *argv[]){
                                   }
                                 #endif
 
-                                  curl = curl_easy_init();
+                                curl = curl_easy_init();
 
-                                  if(curl) {
-
-					    char entity_id[100];
-
-					    printf("Which entity would you like to query?:");
-
-                                            if (fgets(entity_id, sizeof(entity_id), stdin) != NULL) {
-                                                                                                		// Remove the newline character if present
-                                                                                                 		size_t len = strlen(entity_id);
-
-                                                                                                 		if (len > 0 && entity_id[len - 1] == '\n') entity_id[len - 1] = '\0';
-
-                                  	    }
-
-					    char url[80];
-
-					    strcpy(url, "http://99.99.99.99:9999/v2/entities/");
-
-					    strcat(url, entity_id);
-
+                                if(curl) {
 					    /*
                                              * Note that libcurl internally thinks that you connect to the host and
                                              * port that you specify in the URL option.
                                              */
-                                            curl_easy_setopt(curl, CURLOPT_URL, url);
+                                            curl_easy_setopt(curl, CURLOPT_URL, full_url);
 
                                             /* call this function to get a socket */
                                             curl_easy_setopt(curl, CURLOPT_OPENSOCKETFUNCTION, opensocket);
+
+					    Ziti_lib_init();
+
+					    const char *identity_file = argv[2];
+
+                                  	    ziti_context ztx = Ziti_load_context(identity_file);
+
+                                  	    ziti_socket_t sock = Ziti_socket(SOCK_STREAM);
+
+					    Ziti_connect_addr(sock, host, (unsigned int)strtoul(port, NULL, 10));
+
                                             curl_easy_setopt(curl, CURLOPT_OPENSOCKETDATA, &sock);
 
                                             /* call this function to set options for the socket */
@@ -108,6 +177,10 @@ int main(int argc, char *argv[]){
 
                                             res = curl_easy_perform(curl);
 
+					    printf("\n");
+
+					    Ziti_lib_shutdown();
+						
                                             curl_easy_cleanup(curl);
 
                                             close(sockfd);
@@ -119,16 +192,18 @@ int main(int argc, char *argv[]){
                                                       return 4;
 
                                             }
+	
+					    curl_free(host);
+ 
+                                            curl_free(port);
+
+					    curl_free(full_url);
 
                                   }
 
                                 #ifdef _WIN32
                                   WSACleanup();
                                 #endif
-
-                                  Ziti_lib_shutdown();
-
-				  printf("\n");
 
                                   return 0;
 
