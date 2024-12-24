@@ -2,7 +2,7 @@
 
 ZTcURL is a Zero-Trust Networking Architecture-embedded command line client application that utilizes [curl](https://curl.se/)'s [libcurl()](https://curl.se/libcurl/) library and [OpenZiti-C SDK](https://github.com/openziti/ziti-sdk-c) to allow secure, authenticated access to [OpenZiti](https://openziti.io/) services.
 
-![](https://github.com/LiodakisOdysseas/ZTcURL/blob/master/ZTcURL_Network_topology.png)
+![](https://github.com/LiodakisOdysseas/ZTcURL/blob/master/ZTcURL_Network_topology.jpg)
 ## **Build instructions**
 
 ```
