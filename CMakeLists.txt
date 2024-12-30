@@ -8,7 +8,7 @@ include(FetchContent)
 FetchContent_Declare(
   ziti-sdk-c
   GIT_REPOSITORY https://github.com/openziti/ziti-sdk-c.git
-  GIT_TAG ${LATEST_ZITI_RELEASE} main
+  GIT_TAG 1.3.3
 )
 
 FetchContent_MakeAvailable(ziti-sdk-c)
