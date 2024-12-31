@@ -5,10 +5,9 @@ project(ZTcURL)
 
 include(FetchContent)
 
-FetchContent_Declare(
-  ziti-sdk-c
+FetchContent_Declare(ziti-sdk-c
   GIT_REPOSITORY https://github.com/openziti/ziti-sdk-c.git
-  GIT_TAG 1.3.3
+  GIT_TAG $ENV{LATEST_OPENZITI_SDK_C_RELEASE}
 )
 
 FetchContent_MakeAvailable(ziti-sdk-c)

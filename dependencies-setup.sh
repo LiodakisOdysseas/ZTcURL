@@ -9,6 +9,8 @@ git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.sh
 ./vcpkg install llhttp
+export LATEST_OPENZITI_SDK_C_RELEASE=$(curl -s https://api.github.com/repos/openziti/ziti-sdk-c/releases/latest | jq -r .tag_name)
+echo "export LATEST_OPENZITI_SDK_C_RELEASE=$(curl -s https://api.github.com/repos/openziti/ziti-sdk-c/releases/latest | jq -r .tag_name)" >> ~/.bashrc
 export llhttp_DIR=$(sudo find $(sudo find / -path '*/vcpkg/installed') -name 'llhttp-config.cmake' -type f -exec dirname {} \; -quit)
 echo "export llhttp_DIR=$(sudo find $(sudo find / -path '*/vcpkg/installed') -name 'llhttp-config.cmake' -type f -exec dirname {} \; -quit)" >> ~/.bashrc
 cd
