@@ -3,22 +3,17 @@
 #include <curl/curl.h>
 #include <string.h>
 #include <strings.h>
-
-#ifdef _WIN32
-#define close closesocket
-#else
 #include <unistd.h>
-#endif
 
 static curl_socket_t opensocket(void *clientp, curlsocktype purpose, struct curl_sockaddr *address){
-
+	
                                                                                                     curl_socket_t sockfd;
-                                                                                                    (void)purpose;
-                                                                                                    (void)address;
-                                                                                                    sockfd = *(curl_socket_t *)clientp;
- 												    /* the actual externally set socket is passed in via the OPENSOCKETDATA
-     												       option */
-                                                                                                    return sockfd;
+                                                                                                    sockfd = *(curl_socket_t *)clientp; /* The socket created by the OpenZiti SDK and
+																	   connected to an OpenZiti Network Router is
+																	   passed to this function via the OPENSOCKETDATA
+																	   option and is mapped to the 'clientp' variable of
+																	   this function */
+												    return sockfd;
 
 }
 
@@ -137,8 +132,6 @@ int main(int argc, char *argv[]){
 
                                 CURLcode res;
 
-                                curl_socket_t sockfd;
-
                                 #ifdef _WIN32
                                   WSADATA wsaData;
                                   int initwsa = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -182,8 +175,6 @@ int main(int argc, char *argv[]){
 					    Ziti_lib_shutdown();
 						
                                             curl_easy_cleanup(curl);
-
-                                            close(sockfd);
 
                                             if(res) {
 
